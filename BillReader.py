@@ -3,7 +3,8 @@ from openpyxl import Workbook
 import re
 
 file = input("Please enter the filepath for the bill you'd like to input (no quotation marks): ")
-folder = input("Please enter the filepath for the folder you'd like the outputted sheet to go to (no quotation marks): ")
+folder = input("Please enter the filepath for the folder you'd like the outputted sheet to go to (no quotation marks, do not end with slash): ")
+fileName = input("Please input a name for the output file (no spaces): ")
 page_list = []
 reader = PyPDF2.PdfReader(file)
 count = len(reader.pages)
@@ -25,6 +26,6 @@ for page in page_list:
         print(f'A{row}')
         row += 1
 
-workbook.save(filename=folder + r'\bill.xlsx')
+workbook.save(filename=f'{folder}\\{fileName}.xlsx')
 
 
