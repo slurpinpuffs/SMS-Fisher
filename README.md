@@ -1,2 +1,2 @@
-# pdf-to-fishbowl
-A script to reformat a PDF file to an Excel sheet that can be imported to Fishbowl.
+# PDFish
+A script to reformat a PDF file with a Santini bill to a .xlsx file that can be imported directly into Fishbowl.
