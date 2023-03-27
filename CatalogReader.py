@@ -1,13 +1,18 @@
 
 import openpyxl
 from openpyxl import Workbook
-import re
+import os
 
 file = input("Please enter the filepath for the catalog spreadsheet you'd like to input (no quotation marks): ")
-folder = input("Please enter the filepath for the folder you'd like the outputted sheet to go to (no quotation marks, do not end with slash): ")
-fileName = input("Please input a name for the output file (no spaces): ")
+#fileName = input("Please input a name for the output file (no spaces): ")
 exchRate = float(input("What is the exchange rate today? (1.00 EUR = X.XX USD): "))
 
+splitFile = file.split('/')
+splitFile = splitFile[-1].split('.')
+splitFile = splitFile[0]
+fileName = splitFile + '_Fishbowl'
+fileName = 'SantiniSpringSummer2023Collection_Fishbowl'
+folder = os.path.expanduser('~/Downloads')
 catalog = openpyxl.load_workbook(file, data_only=True)
 catSheet = catalog.active
 newWorkbook = Workbook()
@@ -69,54 +74,54 @@ newSheet['AV1'] = 'VendorUOM'
 
 for num in range(0, maxRow - 1):
     # If row is marked as NEW, then:
-    #if(catSheet.cell(row=catRow, column=2).value != 'CF'):
-        # Collects all necessary information from catalog
-        new = catSheet.cell(row=catRow, column=2).value
-        if (new != 'NEW'):
-            catRow += 1
-            continue
-        
-        sku = catSheet.cell(row=catRow, column=8).value
-        uom = catSheet.cell(row=catRow, column=5).value
-        if (catSheet.cell(row=catRow, column=9).value != ''):
-            color = catSheet.cell(row=catRow, column=9).value
-        else:
-            color = 'None'
-        if (catSheet.cell(row=catRow, column=11).value != ''):
-            size = catSheet.cell(row=catRow, column=11).value
-        else:
-            size = 'UNI'
-        if(size != 'None'):
-            partNumParts = [str(sku), str(color), str(size)]
-            partNum = " - ".join(partNumParts)
-        else:
-            partNumParts = [str(sku), str(color), 'UNI']
-            partNum = " - ".join(partNumParts)
-        shortDesc = catSheet.cell(row=catRow, column=6).value
-        longDesc = catSheet.cell(row=catRow, column=7).value
-        salesPrice = catSheet.cell(row=catRow, column=28).value
-
-        # Outputs information into new formatted worksheet
-        newSheet.cell(row=newRow, column=1).value = partNum
-        newSheet.cell(row=newRow, column=2).value = shortDesc
-        newSheet.cell(row=newRow, column=3).value = longDesc
-        if(uom):
-            newSheet.cell(row=newRow, column=4).value = int(uom)
-        else:
-            newSheet.cell(row=newRow, column=4).value = uom
-        newSheet.cell(row=newRow, column=7).value = 'TRUE'
-        newSheet.cell(row=newRow, column=8).value = f'=PRODUCT(AE{newRow}, 0.24, {exchRate})'
-        newSheet.cell(row=newRow, column=28).value = partNum
-        newSheet.cell(row=newRow, column=29).value = shortDesc
-        newSheet.cell(row=newRow, column=30).value = longDesc
-        newSheet.cell(row=newRow, column=31).value = salesPrice
-        newSheet.cell(row=newRow, column=34).value = 'TRUE'
-        newSheet.cell(row=newRow, column=44).value = 'Santini Maglificio Sportivo'
-        newSheet.cell(row=newRow, column=46).value = partNum
-        newSheet.cell(row=newRow, column=47).value = f'=PRODUCT(AE{newRow}, 0.24, {exchRate})'
-
+    # Collects all necessary information from catalog
+    new = catSheet.cell(row=catRow, column=2).value
+    if (new != 'NEW'):
         catRow += 1
-        newRow += 1
+        continue
+        
+    sku = catSheet.cell(row=catRow, column=8).value
+    uom = catSheet.cell(row=catRow, column=5).value
+    if (catSheet.cell(row=catRow, column=9).value != ''):
+        color = catSheet.cell(row=catRow, column=9).value
+    else:
+        color = 'None'
+    if (catSheet.cell(row=catRow, column=11).value != ''):
+        size = catSheet.cell(row=catRow, column=11).value
+    else:
+        size = 'UNI'
+    if(size != 'None'):
+        partNumParts = [str(sku), str(color), str(size)]
+        partNum = " - ".join(partNumParts)
+    else:
+        partNumParts = [str(sku), str(color), 'UNI']
+        partNum = " - ".join(partNumParts)
+    shortDesc = catSheet.cell(row=catRow, column=6).value
+    longDesc = catSheet.cell(row=catRow, column=7).value
+    cost = (catSheet.cell(row=catRow, column=27).value) * exchRate
+    salesPrice = catSheet.cell(row=catRow, column=28).value
+
+    # Outputs information into new formatted worksheet
+    newSheet.cell(row=newRow, column=1).value = partNum
+    newSheet.cell(row=newRow, column=2).value = shortDesc
+    newSheet.cell(row=newRow, column=3).value = longDesc
+    if(uom):
+        newSheet.cell(row=newRow, column=4).value = int(uom)
+    else:
+        newSheet.cell(row=newRow, column=4).value = uom
+    newSheet.cell(row=newRow, column=7).value = 'TRUE'
+    newSheet.cell(row=newRow, column=8).value = cost
+    newSheet.cell(row=newRow, column=28).value = partNum
+    newSheet.cell(row=newRow, column=29).value = shortDesc
+    newSheet.cell(row=newRow, column=30).value = longDesc
+    newSheet.cell(row=newRow, column=31).value = salesPrice
+    newSheet.cell(row=newRow, column=34).value = 'TRUE'
+    newSheet.cell(row=newRow, column=44).value = 'Santini Maglificio Sportivo'
+    newSheet.cell(row=newRow, column=46).value = partNum
+    newSheet.cell(row=newRow, column=47).value = cost
+
+    catRow += 1
+    newRow += 1
 
 newWorkbook.save(filename=f'{folder}\\{fileName}.xlsx')
 
