@@ -3,8 +3,9 @@ import openpyxl
 from openpyxl import Workbook
 import os
 
-file = input("Please enter the filepath for the catalog spreadsheet you'd like to input (no quotation marks): ")
-#fileName = input("Please input a name for the output file (no spaces): ")
+file = input("Please enter the filepath for the catalog spreadsheet you'd like to input: ")
+file = file.replace('"', '')
+isNew = input("Would you like to only import items marked 'NEW' in the catalog? (y/n): ")
 exchRate = float(input("What is the exchange rate today? (1.00 EUR = X.XX USD): "))
 
 splitFile = file.split('/')
@@ -76,9 +77,11 @@ for num in range(0, maxRow - 1):
     # If row is marked as NEW, then:
     # Collects all necessary information from catalog
     new = catSheet.cell(row=catRow, column=2).value
-    if (new != 'NEW'):
-        catRow += 1
-        continue
+
+    if (isNew == 'y') or (isNew == 'Y'):
+        if (new != 'NEW'):
+            catRow += 1
+            continue
         
     sku = catSheet.cell(row=catRow, column=8).value
     uom = catSheet.cell(row=catRow, column=5).value
