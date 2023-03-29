@@ -3,17 +3,21 @@ import openpyxl
 from openpyxl import Workbook
 import os
 
-file = input("Please enter the filepath for the catalog spreadsheet you'd like to input: ")
+print("Hi! Welcome to the Catalog Reader, an SMS Fisher tool by Amani Medcroft.")
+print("Please note that this tool requires the catalog to be in a very specific format.")
+print("Please check your catalog spreadsheet to make sure that column AB is titled 'SRB'.")
+print("If not, you may have to delete column A if the placement off by one column or columns AA-AC if the placement is off by three columns.")
+print("If you encounter any bugs, issues, or have any complaints/suggestions, just let me know!")
+print()
+file = input("Please enter the filepath for the catalog spreadsheet (.xlsx file) you'd like to input: ")
 file = file.replace('"', '')
 isNew = input("Would you like to only import items marked 'NEW' in the catalog? (y/n): ")
 exchRate = float(input("What is the exchange rate today? (1.00 EUR = X.XX USD): "))
 
-splitFile = file.split('/')
+splitFile = file.split('\\')
 splitFile = splitFile[-1].split('.')
-splitFile = splitFile[0]
-fileName = splitFile + '_Fishbowl'
-fileName = 'SantiniSpringSummer2023Collection_Fishbowl'
-folder = os.path.expanduser('~/Downloads')
+fileName = splitFile[0] + '_Fishbowl'
+folder = os.path.expanduser('~\Downloads')
 catalog = openpyxl.load_workbook(file, data_only=True)
 catSheet = catalog.active
 newWorkbook = Workbook()
@@ -82,6 +86,10 @@ for num in range(0, maxRow - 1):
         if (new != 'NEW'):
             catRow += 1
             continue
+    else:
+        if (new != 'NEW') and (new != 'CF'):
+            catRow += 1
+            continue
         
     sku = catSheet.cell(row=catRow, column=8).value
     uom = catSheet.cell(row=catRow, column=5).value
@@ -101,7 +109,8 @@ for num in range(0, maxRow - 1):
         partNum = " - ".join(partNumParts)
     shortDesc = catSheet.cell(row=catRow, column=6).value
     longDesc = catSheet.cell(row=catRow, column=7).value
-    cost = (catSheet.cell(row=catRow, column=27).value) * exchRate
+    cost = (catSheet.cell(row=catRow, column=27).value) #* exchRate
+    print(cost)
     salesPrice = catSheet.cell(row=catRow, column=28).value
 
     # Outputs information into new formatted worksheet
