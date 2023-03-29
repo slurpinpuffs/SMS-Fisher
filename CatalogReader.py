@@ -93,7 +93,7 @@ for num in range(0, maxRow - 1):
         
     sku = catSheet.cell(row=catRow, column=8).value
     upc = catSheet.cell(row=catRow, column=5).value
-    if (catSheet.cell(row=catRow, column=9).value != ''):
+    if (catSheet.cell(row=catRow, column=9).value != '') and (catSheet.cell(row=catRow, column=9).value != '--'):
         color = catSheet.cell(row=catRow, column=9).value
     else:
         color = 'None'
@@ -101,11 +101,17 @@ for num in range(0, maxRow - 1):
         size = catSheet.cell(row=catRow, column=11).value
     else:
         size = 'UNI'
-    if(size != 'None'):
+    if(size != 'None') and (color != 'None'):
         partNumParts = [str(sku), str(color), str(size)]
         partNum = " - ".join(partNumParts)
-    else:
+    elif(size == 'None') and (color != 'None'):
         partNumParts = [str(sku), str(color), 'UNI']
+        partNum = " - ".join(partNumParts)
+    elif(size != 'None') and (color == 'None'):
+        partNumParts = [str(sku), str(size)]
+        partNum = " - ".join(partNumParts)
+    else:
+        partNumParts = [str(sku), 'UNI']
         partNum = " - ".join(partNumParts)
     shortDesc = catSheet.cell(row=catRow, column=6).value
     longDesc = catSheet.cell(row=catRow, column=7).value
