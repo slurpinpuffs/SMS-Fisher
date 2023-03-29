@@ -120,6 +120,7 @@ for num in range(0, maxRow - 1):
         newSheet.cell(row=newRow, column=5).value = int(upc)
     else:
         newSheet.cell(row=newRow, column=5).value = upc
+    newSheet.cell(row=newRow, column=5).number_format = '0'
     newSheet.cell(row=newRow, column=7).value = 'TRUE'
     newSheet.cell(row=newRow, column=8).value = cost
     newSheet.cell(row=newRow, column=28).value = partNum
