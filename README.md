@@ -1,4 +1,5 @@
 # SMS-Fisher
+SMS Fisher is a set of tools for converting Santini-provided Excel sheets into preformated spreadsheets ready for direct import into Fishbowl. The plan for the future is to combine all of these tools into one multi-tool with an easy-to-use GUI, but as of now, they are separate programs. </br></br>
 <b>BillReader.py</b> - A script to reformat a PDF file with a Santini bill to a .xlsx file that can be imported directly into Fishbowl.</br></br>
 <b>CatalogReader.py</b> - A script to reformat a .xlsx file with a Santini collection catalog into an .xlsx file that can be imported directly into Fishbowl.</br></br>
 <u>Installation steps:</u>
