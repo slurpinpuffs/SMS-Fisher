@@ -26,7 +26,7 @@ maxRow = catSheet.max_row
 catRow = 1
 newRow = 2
 
-# Initializing spreadhseet by adding column names
+# Initializing spreadsheet by adding column names
 newSheet['A1'] = 'PartNumber'
 newSheet['B1'] = 'PartDescription'
 newSheet['C1'] = 'PartDetails'
@@ -92,7 +92,7 @@ for num in range(0, maxRow - 1):
             continue
         
     sku = catSheet.cell(row=catRow, column=8).value
-    uom = catSheet.cell(row=catRow, column=5).value
+    upc = catSheet.cell(row=catRow, column=5).value
     if (catSheet.cell(row=catRow, column=9).value != ''):
         color = catSheet.cell(row=catRow, column=9).value
     else:
@@ -109,18 +109,17 @@ for num in range(0, maxRow - 1):
         partNum = " - ".join(partNumParts)
     shortDesc = catSheet.cell(row=catRow, column=6).value
     longDesc = catSheet.cell(row=catRow, column=7).value
-    cost = (catSheet.cell(row=catRow, column=27).value) #* exchRate
-    print(cost)
+    cost = (catSheet.cell(row=catRow, column=27).value) * exchRate
     salesPrice = catSheet.cell(row=catRow, column=28).value
 
     # Outputs information into new formatted worksheet
     newSheet.cell(row=newRow, column=1).value = partNum
     newSheet.cell(row=newRow, column=2).value = shortDesc
     newSheet.cell(row=newRow, column=3).value = longDesc
-    if(uom):
-        newSheet.cell(row=newRow, column=4).value = int(uom)
+    if(upc):
+        newSheet.cell(row=newRow, column=5).value = int(upc)
     else:
-        newSheet.cell(row=newRow, column=4).value = uom
+        newSheet.cell(row=newRow, column=5).value = upc
     newSheet.cell(row=newRow, column=7).value = 'TRUE'
     newSheet.cell(row=newRow, column=8).value = cost
     newSheet.cell(row=newRow, column=28).value = partNum
