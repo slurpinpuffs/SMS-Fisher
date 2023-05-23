@@ -1,4 +1,3 @@
-
 import openpyxl
 from openpyxl import Workbook
 import os
@@ -101,13 +100,13 @@ for num in range(0, maxRow - 1):
         size = catSheet.cell(row=catRow, column=11).value
     else:
         size = 'UNI'
-    if(size != 'None') and (color != 'None'):
+    if(size != 'None') and (color != 'None') and (color != "--"):
         partNumParts = [str(sku), str(color), str(size)]
         partNum = " - ".join(partNumParts)
-    elif(size == 'None') and (color != 'None'):
+    elif(size == 'None') and (color != 'None') and (color != "--"):
         partNumParts = [str(sku), str(color), 'UNI']
         partNum = " - ".join(partNumParts)
-    elif(size != 'None') and (color == 'None'):
+    elif(size != 'None') and ((color == 'None') or (color == "--")):
         partNumParts = [str(sku), str(size)]
         partNum = " - ".join(partNumParts)
     else:
@@ -142,5 +141,4 @@ for num in range(0, maxRow - 1):
     newRow += 1
 
 newWorkbook.save(filename=f'{folder}\\{fileName}.xlsx')
-
 
