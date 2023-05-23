@@ -154,7 +154,10 @@ for num in range(0, maxRow - 1):
     itemFullNames = []
     itemQuantities = []
     for sizeKey in sizes:
-        itemFullNames.append(f"{itemCode} - {shortColor} - {sizeKey}")
+        if shortColor != 'PR':
+            itemFullNames.append(f"{itemCode} - {shortColor} - {sizeKey}")
+        else:
+            itemFullNames.append(f"{itemCode} - {sizeKey}")
         itemQuantities.append(sizeQuanDict[sizeKey])
 
     # Outputs information into new formatted worksheet
