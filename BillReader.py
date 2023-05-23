@@ -21,16 +21,93 @@ newWorkbook = Workbook()
 newSheet = newWorkbook.active
 maxRow = billSheet.max_row
 billRow = 1
-newRow = 2
+newRow = 4
 
-# Initializing spreadsheet by adding column names
-# newSheet['A1'] = 'PartNumber'
 
 # Reading address and stuff.
 receiverName = billSheet.cell(row=14, column=98).value
 receiverAddress = billSheet.cell(row=18, column=98).value
 receiverSuite = billSheet.cell(row=19, column=98).value
 receiverZipCityState = billSheet.cell(row=20, column=98).value
+orderNum = billSheet.cell(row=29, column=105).value.strip()
+
+# Initializing spreadsheet by adding column names
+newSheet['A1'] = "Flag"
+newSheet['B1'] = "PONum"
+newSheet['C1'] = "Status"
+newSheet['D1'] = "VendorName"
+newSheet['E1'] = "VendorContact"
+newSheet['F1'] = "RemitToName"
+newSheet['G1'] = "RemitToAddress"
+newSheet['H1'] = "RemitToCity"
+newSheet['I1'] = "RemitToState"
+newSheet['J1'] = "RemitToZip"
+newSheet['K1'] = "RemitToCountry"
+newSheet['L1'] = "ShipToName"
+newSheet['M1'] = "DeliverToName"
+newSheet['N1'] = "ShipToAddress"
+newSheet['O1'] = "ShipToCity"
+newSheet['P1'] = "ShipToState"
+newSheet['Q1'] = "ShipToZip"
+newSheet['R1'] = "ShipToCountry"
+newSheet['S1'] = "CarrierName"
+newSheet['T1'] = "CarrierService"
+newSheet['U1'] = "VendorSONum"
+newSheet['V1'] = "CustomerSONum"
+newSheet['W1'] = "CreatedDate"
+newSheet['X1'] = "CompletedDate"
+newSheet['Y1'] = "ConfirmedDate"
+newSheet['Z1'] = "FulfillmentDate"
+newSheet['AA1'] = "IssuedDate"
+newSheet['AB1'] = "Buyer"
+newSheet['AC1'] = "ShippingTerms"
+newSheet['AD1'] = "PaymentTerms"
+newSheet['AE1'] = "FOB"
+newSheet['AF1'] = "Note"
+newSheet['AG1'] = "QuickBooksClassName"
+newSheet['AH1'] = "LocationGroupName"
+
+newSheet['A2'] = "Flag"
+newSheet['B2'] = "POItemType"
+newSheet['C2'] = "PartNumber"
+newSheet['D2'] = "VendorPartNumber"
+newSheet['E2'] = "PartQuantity"
+newSheet['F2'] = "FulfilledQuantity"
+newSheet['G2'] = "PickedQuantity"
+newSheet['H2'] = "UOM"
+newSheet['I2'] = "PartPrice"
+newSheet['J2'] = "FulfillmentDate"
+newSheet['K2'] = "LastFulfillmentDate"
+newSheet['L2'] = "RevisionLevel"
+newSheet['M2'] = "Note"
+newSheet['N2'] = "QuickBooksClassName"
+newSheet['O2'] = "CustomerJob"
+
+newSheet['A3'] = "PO"
+newSheet['B3'] = orderNum
+newSheet['C3'] = "20"
+newSheet['C3'].number_format = '0'
+newSheet['D3'] = "Santini Maglifico Sportivo"
+newSheet['E3'] = ""
+newSheet['F3'] = "Santini Maglifico Sportivo"
+newSheet['G3'] = "Via Zanica 14"
+newSheet['H3'] = "Bergamo (BG)"
+newSheet['I3'] = ""
+newSheet['J3'] = "24126"
+newSheet['K3'] = "Italy"
+newSheet['L3'] = receiverName
+newSheet['M3'] = receiverName
+newSheet['N3'] = receiverAddress
+newSheet['O3'] = "Goodyear"
+newSheet['P3'] = "AZ"
+newSheet['Q3'] = "85338"
+newSheet['R3'] = "US"
+newSheet['S3'] = "UPS"
+newSheet['T3'] = "2nd Day Air"
+newSheet.cell(row=newRow, column=36).value = "Euro"
+newSheet.cell(row=newRow, column=37).value = exchRate
+
+
 
 for num in range(0, maxRow - 1):
 
@@ -61,11 +138,15 @@ for num in range(0, maxRow - 1):
 
         color = str(billSheet.cell(row=billSizeRow, column=6).value)
         shortColor = color[0:2]
+        costEuro = billSheet.cell(row=billRow, column=112).value
+        costEuro = costEuro.replace(",",".")
+        costEuro = float(costEuro) * 0.94
+        costEuro = round(costEuro,2)
 
         for tempNum in [28, 38, 42, 53, 61, 72, 83, 90, 99, 109]:
             if billSheet.cell(row=billQuanRow, column=tempNum).value is not None:
                 size = billSheet.cell(row=billSizeRow, column=tempNum).value
-                quantity = billSheet.cell(row=billQuanRow, column=tempNum).value
+                quantity = billSheet.cell(row=billQuanRow, column=tempNum).value.strip()
                 sizeQuanDict.update({size:quantity})
 
     sizes = sizeQuanDict.keys()
@@ -78,13 +159,22 @@ for num in range(0, maxRow - 1):
 
     # Outputs information into new formatted worksheet
     for item in range(0, len(itemFullNames)):
-        newSheet.cell(row=newRow, column=1).value = itemFullNames[item]
-        newSheet.cell(row=newRow, column=2).value = itemQuantities[item]
+        newSheet.cell(row=newRow, column=1).value = "Item"
+        newSheet.cell(row=newRow, column=2).value = "10"
+        newSheet.cell(row=newRow, column=2).number_format = '0'
+        newSheet.cell(row=newRow, column=3).value = itemFullNames[item]
+        newSheet.cell(row=newRow, column=4).value = itemFullNames[item]
+        newSheet.cell(row=newRow, column=5).value = itemQuantities[item]
+        newSheet.cell(row=newRow, column=8).value = "ea"
+        newSheet.cell(row=newRow, column=9).value = costEuro
+        
+        
         newRow +=1
 
 
     billRow += 1
 
 newWorkbook.save(filename=f'{folder}\\{fileName}.xlsx')
+
 
 
