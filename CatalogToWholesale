@@ -50,6 +50,7 @@ for num in range(0, maxRow - 1):
     salesPrice = float(catSheet.cell(row=catRow, column=28+offset).value) * priceFactor
     salesPrice = fiveRound(salesPrice)
     salesPrice = salesPrice - 0.05
+    discountSalesPrice = fiveRound(salesPrice * 0.55) - 0.05
     
     if salesPrice == 104.95:
         salesPrice = 99.95
@@ -58,11 +59,19 @@ for num in range(0, maxRow - 1):
     if salesPrice == 304.95:
         salesPrice = 299.95
 
+    if discountSalesPrice == 104.95:
+        discountSalesPrice = 99.95
+    if discountSalesPrice == 204.95:
+        discountSalesPrice = 199.95
+    if discountSalesPrice == 304.95:
+        discountSalesPrice = 299.95
+
+
     # Outputs information into new formatted worksheet
     catSheet.cell(row=catRow, column=2+offset).value = 0
     catSheet.cell(row=catRow, column=2+offset).font = Font(color="000000")
     catSheet.cell(row=catRow, column=27+offset).value = salesPrice
-    catSheet.cell(row=catRow, column=28+offset).value = round(salesPrice * 0.55,2)
+    catSheet.cell(row=catRow, column=28+offset).value = discountSalesPrice
     catSheet.cell(row=catRow, column=27+offset).number_format = dollarFormat
     catSheet.cell(row=catRow, column=28+offset).number_format = dollarFormat
 
