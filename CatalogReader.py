@@ -1,3 +1,4 @@
+
 import openpyxl
 from openpyxl import Workbook
 import os
@@ -12,6 +13,7 @@ file = input("Please enter the filepath for the catalog spreadsheet (.xlsx file)
 file = file.replace('"', '')
 isNew = input("Would you like to only import items marked 'NEW' in the catalog? (y/n): ")
 exchRate = float(input("What is the exchange rate today? (1.00 EUR = X.XX USD): "))
+priceFactor = float(input("How much should the price be multiplied by? (2023 standard = 1.20): "))
 
 splitFile = file.split('\\')
 splitFile = splitFile[-1].split('.')
@@ -75,6 +77,9 @@ newSheet['AT1'] = 'VendorPartNumber'
 newSheet['AU1'] = 'Cost'
 newSheet['AV1'] = 'VendorUOM'
 
+# Func to round number to nearest five
+def fiveRound(x, base=5):
+    return base * round(x/base)
 
 for num in range(0, maxRow - 1):
     # If row is marked as NEW, then:
@@ -114,8 +119,8 @@ for num in range(0, maxRow - 1):
         partNum = " - ".join(partNumParts)
     shortDesc = catSheet.cell(row=catRow, column=6).value
     longDesc = catSheet.cell(row=catRow, column=7).value
-    cost = (catSheet.cell(row=catRow, column=27).value) * exchRate
-    salesPrice = catSheet.cell(row=catRow, column=28).value
+    cost = float((catSheet.cell(row=catRow, column=27).value)) * exchRate
+    salesPrice = fiveRound(catSheet.cell(row=catRow, column=28).value * priceFactor)
 
     # Outputs information into new formatted worksheet
     newSheet.cell(row=newRow, column=1).value = partNum
@@ -141,4 +146,7 @@ for num in range(0, maxRow - 1):
     newRow += 1
 
 newWorkbook.save(filename=f'{folder}\\{fileName}.xlsx')
+
+print()
+print(f'Success! The catalog has been converted. The output file is at "{folder}\\{fileName}.xlsx"')
 
