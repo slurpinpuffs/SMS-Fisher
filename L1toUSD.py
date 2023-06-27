@@ -3,7 +3,7 @@ from openpyxl import Workbook
 from openpyxl.styles import Font
 import os
 
-version = '1.1'
+version = '1.2'
 
 print(f"Hi! Welcome to the L1 to USD tool ver. {version}, an SMS Fisher tool by Amani Medcroft.")
 print("Please note that this tool requires the catalog to be in a very specific format.")
@@ -60,13 +60,6 @@ while(userInput != 'n' and userInput != 'N'):
         if salesPrice == 304.95:
             salesPrice = 299.95
 
-        if discountSalesPrice == 104.95:
-            discountSalesPrice = 99.95
-        if discountSalesPrice == 204.95:
-            discountSalesPrice = 199.95
-        if discountSalesPrice == 304.95:
-            discountSalesPrice = 299.95
-
         # Outputs information into new formatted worksheet
         catSheet.cell(row=catRow, column=27+offset).value = salesPrice
         catSheet.cell(row=catRow, column=28+offset).value = discountSalesPrice
@@ -89,4 +82,3 @@ while(userInput != 'n' and userInput != 'N'):
     print()
     print(f'Success! The catalog has been converted. The output file is at "{saveName}"')
     userInput = input("Would you like to convert another? (y/n): ")
-
