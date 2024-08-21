@@ -1,6 +1,4 @@
 import openpyxl
-from openpyxl import Workbook
-from openpyxl.styles import Font
 import os
 
 version = '1.2'

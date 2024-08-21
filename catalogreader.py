@@ -1,7 +1,6 @@
 import openpyxl
 from openpyxl import Workbook
 import os
-from openpyxl.styles import numbers
 
 version = '1.2'
 
