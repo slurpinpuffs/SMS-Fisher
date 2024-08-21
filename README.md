@@ -12,5 +12,5 @@ SMS Fisher is a set of tools for converting Santini-provided Excel sheets into p
     <li>Run <code>BillReader.py</code> or <code>CatalogReader.py</code> and follow instructions given. Make sure the .xlsx file you're using is formatted correctly.</li>
 </ol>
 <br><br>
-<b><i>This program is for use by SMS Distribution employees only. You can use it or clone it whoever you are, it just won't be useful to you whatsoever.</i></b>
+<b><i>This program was made for use by SMS Distribution employees. It contains no sensitive information, so you may use it or clone it whoever you are, it just likely won't be useful.</i></b>
 
