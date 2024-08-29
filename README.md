@@ -4,7 +4,7 @@ SMS Fisher is a set of tools for automating certain tedious tasks at SMS Distrib
 <b>catalogreader.py</b> - A script to reformat a .xlsx file with a Santini collection catalog into an .xlsx file that can be imported directly into Fishbowl.</br></br>
 <b>catalogtowholesale.py</b> - A script to convert catalogs made with catalogreader.py into wholesale orders that can be imported directly into Fishbowl.</br></br>
 <b>wholesaletosalesorder.py</b> - A script to conver wholesale orders made with catalogtowgolesale.py to sales order that can be directly imported into Fishbowl.</br></br>
-<b>l1tousd/b> - A script to convert L1 spreadsheets from EUR into USD at a fixed rate.</br></br>
+<b>l1tousd</b> - A script to convert L1 spreadsheets from EUR into USD at a fixed rate.</br></br>
 <u>Installation steps:</u>
 <ol>
     <li>Make sure you have Python installed</li>
